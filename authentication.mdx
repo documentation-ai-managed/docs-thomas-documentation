@@ -1,0 +1,123 @@
+---
+title: Authentication
+description: Learn how to authenticate and secure access to your Thomas Documentation spaces
+---
+
+## Overview
+
+Authentication is crucial for maintaining the security and integrity of your documentation spaces in Thomas Documentation. Our platform supports multiple authentication methods, ensuring that only authorized users can access sensitive information. Whether you're working solo or with a large team, you can configure access controls that fit your needs.
+
+<Steps>
+  <Step title="Choose Auth Method" icon="settings">
+    Select from OAuth, SSO, or API key authentication based on your requirements.
+  </Step>
+  <Step title="Configure Settings" icon="tool">
+    Set up your chosen authentication method in the admin panel.
+  </Step>
+  <Step title="Test Access" icon="check">
+    Verify that authentication works correctly before going live.
+  </Step>
+</Steps>
+
+## OAuth Integration
+
+Thomas Documentation integrates seamlessly with popular identity providers using OAuth 2.0. This allows users to sign in with their existing accounts from Google, GitHub, or Microsoft, simplifying the login process and reducing password fatigue.
+
+<CodeGroup tabs="JavaScript,Python">
+  ```javascript
+const authUrl = 'https://api.thomasdocs.com/oauth/authorize';
+const response = await fetch(authUrl, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ client_id: 'your_client_id' })
+});
+const data = await response.json();
+console.log('Access token:', data.access_token);
+```
+  ```python
+import requests
+
+auth_url = 'https://api.thomasdocs.com/oauth/authorize'
+data = {'client_id': 'your_client_id'}
+response = requests.post(auth_url, json=data)
+print('Access token:', response.json()['access_token'])
+```
+</CodeGroup>
+
+<Tabs>
+  <Tab title="Google" icon="user">
+    Connect with Google accounts for easy authentication.
+    
+    <Callout kind="info">
+      Ensure your Google app has the correct redirect URIs configured.
+    </Callout>
+  </Tab>
+  <Tab title="GitHub" icon="github">
+    Use GitHub OAuth for developer-friendly access.
+    
+    <Callout kind="tip">
+      GitHub authentication works well for teams already using GitHub.
+    </Callout>
+  </Tab>
+  <Tab title="SSO" icon="shield">
+    Integrate with enterprise SSO solutions like Okta or Active Directory.
+    
+    <Callout kind="alert">
+      SSO setup requires coordination with your IT department.
+    </Callout>
+  </Tab>
+</Tabs>
+
+## API Keys
+
+For programmatic access, Thomas Documentation supports API keys with granular permissions. You can generate keys for specific scopes, such as read-only access or full administrative control.
+
+<ParamField path="key" param-type="string" required="true">
+  The API key for authentication.
+</ParamField>
+
+<ParamField query="scope" param-type="string" required="false">
+  Optional scope limiting the key's permissions.
+</ParamField>
+
+```javascript
+const apiKey = 'your_api_key_here';
+const headers = { 'Authorization': `Bearer ${apiKey}` };
+const response = await fetch('https://api.thomasdocs.com/docs', { headers });
+```
+
+<Expandable title="Best Practices for API Keys" default-open="false">
+  Store API keys securely using environment variables or key management services. Rotate keys regularly and revoke them immediately if compromised. Use the principle of least privilege when assigning scopes.
+</Expandable>
+
+## User Permissions
+
+Control who can view, edit, or manage your documentation with role-based access control. Assign roles like Viewer, Editor, or Admin to team members.
+
+| Role       | View | Edit | Manage |
+|------------|------|------|--------|
+| Viewer     | Yes  | No   | No     |
+| Editor     | Yes  | Yes  | No     |
+| Admin      | Yes  | Yes  | Yes    |
+
+<Callout kind="success">
+  Proper permission management ensures collaboration without compromising security.
+</Callout>
+
+## Troubleshooting
+
+If you encounter authentication issues, check the following common problems and solutions.
+
+<ExpandableGroup>
+  <Expandable title="Invalid Credentials" default-open="false">
+    Verify your username and password. Reset your password if needed.
+  </Expandable>
+  <Expandable title="OAuth Redirect Error" default-open="false">
+    Ensure the redirect URI in your OAuth app matches the one configured in Thomas Documentation.
+  </Expandable>
+  <Expandable title="API Key Not Working" default-open="false">
+    Check that the key hasn't expired and has the correct scope for your request.
+  </Expandable>
+</ExpandableGroup>
+
+Authentication in Thomas Documentation provides a flexible and secure way to manage access to your documentation spaces, supporting various methods to fit different organizational needs and ensuring that your content remains protected.

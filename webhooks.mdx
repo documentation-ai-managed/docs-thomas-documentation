@@ -1,0 +1,148 @@
+---
+title: Webhooks
+description: Set up webhooks to automate workflows and integrate Thomas Documentation with external services
+---
+
+## Introduction to Webhooks
+
+Webhooks in Thomas Documentation allow you to receive real-time notifications about events in your documentation spaces. This enables automation and integration with other tools, keeping your workflows synchronized.
+
+<Steps>
+  <Step title="Create Webhook" icon="plus">
+    Set up a new webhook endpoint in your space settings.
+  </Step>
+  <Step title="Configure Events" icon="settings">
+    Choose which events should trigger the webhook.
+  </Step>
+  <Step title="Test Integration" icon="check">
+    Send a test payload to verify your endpoint works.
+  </Step>
+</Steps>
+
+## Available Events
+
+Thomas Documentation supports various events that can trigger webhooks, from document changes to user actions.
+
+<Tabs>
+  <Tab title="Document Events" icon="file-text">
+    Notifications for document creation, updates, and deletions.
+    
+    <CodeGroup tabs="Create,Update,Delete">
+      ```json
+      {
+        "event": "doc.created",
+        "data": {
+          "id": "doc123",
+          "title": "New Document",
+          "spaceId": "space456"
+        }
+      }
+      ```
+      ```json
+      {
+        "event": "doc.updated",
+        "data": {
+          "id": "doc123",
+          "changes": ["title", "content"]
+        }
+      }
+      ```
+      ```json
+      {
+        "event": "doc.deleted",
+        "data": {
+          "id": "doc123"
+        }
+      }
+      ```
+    </CodeGroup>
+  </Tab>
+  <Tab title="User Events" icon="user">
+    Events related to user management and access.
+    
+    <Callout kind="info">
+      User events help track team changes and access patterns.
+    </Callout>
+  </Tab>
+  <Tab title="Space Events" icon="folder">
+    Notifications for space-level changes and settings.
+    
+    <Callout kind="tip">
+      Space events are useful for audit logging.
+    </Callout>
+  </Tab>
+</Tabs>
+
+## Setting Up Webhooks
+
+Configure webhooks through the Thomas Documentation dashboard or API to start receiving event notifications.
+
+<ParamField body="url" param-type="string" required="true">
+  The endpoint URL to receive webhook payloads.
+</ParamField>
+
+<ParamField body="events" param-type="array" required="true">
+  Array of event types to subscribe to.
+</ParamField>
+
+<ParamField body="secret" param-type="string" required="false">
+  Optional secret for verifying webhook authenticity.
+</ParamField>
+
+```javascript
+const webhookData = {
+  url: 'https://api.example.com/webhooks/thomasdocs',
+  events: ['doc.created', 'doc.updated'],
+  secret: 'your_webhook_secret'
+};
+
+const response = await fetch('https://api.thomasdocs.com/webhooks', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(webhookData)
+});
+```
+
+<Expandable title="Webhook Security" default-open="false">
+  Always use HTTPS for webhook URLs and implement signature verification using the provided secret. This ensures that incoming requests are genuine and haven't been tampered with.
+</Expandable>
+
+## Integration Examples
+
+See how webhooks can integrate Thomas Documentation with popular tools and services.
+
+<Columns cols={2}>
+  <Card title="Slack Notifications" icon="message-square" href="#slack">
+    Send updates to Slack channels.
+  </Card>
+  <Card title="GitHub Actions" icon="github" href="#github">
+    Trigger CI/CD workflows on doc changes.
+  </Card>
+</Columns>
+
+<ExpandableGroup>
+  <Expandable title="Slack Integration" default-open="false">
+    Configure webhooks to post messages in Slack when documentation is updated, keeping your team informed of changes.
+  </Expandable>
+  <Expandable title="CI/CD Pipelines" default-open="false">
+    Use webhooks to trigger automated testing or deployment processes when API documentation changes.
+  </Expandable>
+  <Expandable title="Audit Logging" default-open="false">
+    Send webhook data to logging services for compliance and monitoring purposes.
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="success">
+  Webhooks enable powerful automation possibilities for your documentation workflow.
+</Callout>
+
+## Troubleshooting
+
+Common issues and solutions for webhook setup.
+
+- Verify your endpoint is accessible and returns a 200 status code
+- Check that your server can handle the JSON payload format
+- Ensure the webhook secret is correctly configured for signature verification
+- Monitor webhook delivery logs in the Thomas Documentation dashboard
+
+By leveraging webhooks, you can create a more dynamic and integrated documentation system that responds to changes in real-time.

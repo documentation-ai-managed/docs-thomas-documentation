@@ -1,0 +1,148 @@
+---
+title: Configuration
+description: Configure Thomas Documentation to match your workflow and organizational needs
+---
+
+## Basic Setup
+
+Configuring Thomas Documentation begins with setting up your documentation spaces and defining the structure that best fits your projects. Our platform offers flexible configuration options to customize the experience for your team.
+
+<Columns cols={2}>
+  <Card title="Space Settings" icon="settings" href="#space-settings">
+    Configure your documentation space properties.
+  </Card>
+  <Card title="User Management" icon="users" href="#user-management">
+    Manage team members and permissions.
+  </Card>
+</Columns>
+
+## Space Settings
+
+Each documentation space can be customized with specific settings, including themes, branding, and access controls. You can set default templates and configure how content is organized.
+
+<Steps>
+  <Step title="Create Space" icon="plus">
+    Start by creating a new documentation space from the dashboard.
+  </Step>
+  <Step title="Set Properties" icon="settings">
+    Configure name, description, and visibility settings.
+  </Step>
+  <Step title="Customize Theme" icon="palette">
+    Choose colors and branding to match your organization.
+  </Step>
+  <Step title="Add Members" icon="user-plus">
+    Invite team members and assign roles.
+  </Step>
+</Steps>
+
+```javascript
+const spaceConfig = {
+  name: 'Project Docs',
+  description: 'Documentation for our main project',
+  theme: {
+    primaryColor: '#3B82F6',
+    fontFamily: 'Inter'
+  },
+  permissions: {
+    public: false,
+    roles: ['admin', 'editor', 'viewer']
+  }
+};
+```
+
+<Tabs>
+  <Tab title="General" icon="settings">
+    Basic space information and settings.
+    
+    <Callout kind="info">
+      Public spaces are visible to anyone with the link.
+    </Callout>
+  </Tab>
+  <Tab title="Branding" icon="palette">
+    Customize logos, colors, and themes.
+    
+    <Callout kind="tip">
+      Use your brand colors for a consistent experience.
+    </Callout>
+  </Tab>
+  <Tab title="Integrations" icon="plug">
+    Connect external services and tools.
+    
+    <Callout kind="alert">
+      Some integrations require additional setup.
+    </Callout>
+  </Tab>
+</Tabs>
+
+## User Management
+
+Manage your team effectively with role-based permissions and user groups. You can create custom roles if the default ones don't fit your needs.
+
+<ParamField body="userId" param-type="string" required="true">
+  Unique identifier for the user.
+</ParamField>
+
+<ParamField body="role" param-type="string" required="true">
+  Role to assign: admin, editor, or viewer.
+</ParamField>
+
+```python
+import requests
+
+user_data = {
+  'userId': 'user123',
+  'role': 'editor'
+}
+response = requests.post('https://api.thomasdocs.com/users', json=user_data)
+print('User added:', response.json())
+```
+
+<Expandable title="Custom Roles" default-open="false">
+  For advanced organizations, create custom roles with specific permissions. For example, you might have a 'Reviewer' role that can comment but not edit, or a 'Publisher' role that can only publish approved content.
+</Expandable>
+
+## Advanced Configuration
+
+Take your documentation setup to the next level with advanced features like custom domains, webhooks, and API integrations.
+
+<CodeGroup tabs="Webhook Setup,Custom Domain">
+  ```javascript
+const webhookConfig = {
+  url: 'https://example.com/webhook',
+  events: ['doc.updated', 'doc.created'],
+  secret: 'your_webhook_secret'
+};
+```
+  ```bash
+# Custom domain setup
+thomasdocs config domain set example.com
+thomasdocs config ssl enable
+```
+</CodeGroup>
+
+<ExpandableGroup>
+  <Expandable title="Custom Domains" default-open="false">
+    Host your documentation on your own domain for a branded experience.
+  </Expandable>
+  <Expandable title="Webhooks" default-open="false">
+    Get notified of changes via webhooks to integrate with your CI/CD pipeline.
+  </Expandable>
+  <Expandable title="API Access" default-open="false">
+    Use our REST API to programmatically manage documentation.
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="success">
+  Proper configuration ensures your documentation system works seamlessly with your workflow.
+</Callout>
+
+## Best Practices
+
+Follow these guidelines to maintain an organized and efficient documentation setup.
+
+- Regularly review and update user permissions
+- Use consistent naming conventions for spaces and documents
+- Set up automated backups for critical documentation
+- Monitor usage analytics to optimize your configuration
+
+With these configuration options, Thomas Documentation adapts to your specific needs, whether you're a small team or a large enterprise.
